@@ -1,7 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Container } from '@/components/shared/container';
+import { Header } from '@/components/shared/header';
+import { Title } from '@/components/shared/title';
 
 export default function Home() {
   return (
-   <div>home<Button >Click</Button></div>
+    <div>
+      <Header />
+    </div>
   );
 }
