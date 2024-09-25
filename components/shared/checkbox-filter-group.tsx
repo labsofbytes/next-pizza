@@ -51,6 +51,10 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
     onChange?.(Array.from(selected));
   }, [selected]);
 
+  const list = showAll
+    ? items.filter((item) => item.text.toLowerCase().includes(search.toLocaleLowerCase()))
+    : (defaultItems || items).slice(0, limit);
+
   return (
     <div className={className}>
       <p className='font-bold mb-3'>{title}</p>
@@ -67,18 +71,16 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       )}
 
       <div className='flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar'>
-        {(showAll ? items.filter((item) => item.text.toLowerCase().includes(search.toLowerCase())) : defaultItems).map(
-          (item) => (
-            <filterCheckbox.FilterCheckbox
-              onCheckedChange={() => onCheckedChange(item.value)}
-              checked={selected.has(item.value)}
-              key={String(item.value)}
-              value={item.value}
-              text={item.text}
-              endAdornment={item.endAdornment}
-            />
-          )
-        )}
+        {list.map((item) => (
+          <filterCheckbox.FilterCheckbox
+            onCheckedChange={() => onCheckedChange(item.value)}
+            checked={selected.has(item.value)}
+            key={String(item.value)}
+            value={item.value}
+            text={item.text}
+            endAdornment={item.endAdornment}
+          />
+        ))}
       </div>
 
       {items.length > limit && (

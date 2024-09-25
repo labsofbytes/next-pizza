@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useCategoryStore } from '@/store/category';
 import { useIntersection } from 'react-use';
 
 import { Title } from './title';
@@ -14,16 +15,19 @@ interface Props {
 }
 
 export const ProductsGroupList: React.FC<Props> = ({ title, items, className, categoryId }) => {
+  const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
   const intersectionRef = React.useRef(null);
   const intersection = useIntersection(intersectionRef, {
-    threshold: 0.4,
+    threshold: 1,
   });
 
   React.useEffect(() => {
-    if (intersection && intersection?.intersectionRatio > 0) {
-      console.log(title, categoryId);
+    if (intersection?.intersectionRatio) {
+      setActiveCategoryId(categoryId);
     }
-  }, [intersection]);
+
+    console.log('categoryId:', categoryId);
+  }, [title, intersection?.intersectionRatio, categoryId]);
 
   return (
     <div className={className} id={title} ref={intersectionRef}>
