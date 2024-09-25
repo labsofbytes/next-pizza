@@ -31,14 +31,14 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
 }) => {
   const [showAll, setShowAll] = React.useState(false);
   const [selected, { add, toggle }] = useSet<string>(new Set([]));
-  const [value, setValue] = useState('');
+  const [search, setSearch] = useState('');
 
   const onCheckedChange = (value: string) => {
     toggle(value);
   };
 
   const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setSearch(e.target.value);
   };
 
   React.useEffect(() => {
@@ -60,14 +60,14 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
           <Input
             placeholder={searchInputPlaceholder}
             className='bg-gray-50 border-none'
-            value={value}
+            value={search}
             onChange={onChangeSearchInput}
           />
         </div>
       )}
 
       <div className='flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar'>
-        {(showAll ? items.filter((item) => item.text.toLowerCase().includes(value.toLowerCase())) : defaultItems).map(
+        {(showAll ? items.filter((item) => item.text.toLowerCase().includes(search.toLowerCase())) : defaultItems).map(
           (item) => (
             <filterCheckbox.FilterCheckbox
               onCheckedChange={() => onCheckedChange(item.value)}
