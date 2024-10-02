@@ -5,6 +5,7 @@ import { Container } from './container';
 import { Button } from '../ui/button';
 import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SearchInput } from './search-input';
 
 interface Props {
   className?: string;
@@ -22,9 +23,9 @@ export const Header: React.FC<Props> = ({ className }) => {
           </div>
         </div>
 
-        {/* <div className="mx-10 flex-1">
+        <div className='mx-10 flex-1'>
           <SearchInput />
-        </div> */}
+        </div>
 
         <div className='flex items-center gap-3'>
           <Button variant='outline'>Log In</Button>
