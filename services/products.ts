@@ -3,5 +3,7 @@ import { axiosInstance } from "./instance";
 
 
 export async function GET(query: string) {
-    const { data } = await axiosInstance.get<Product>(`/products/search`)
+    const { data } = await axiosInstance.get<Product>(`/products/search`, { params: { query } })
+
+    return data;
 }
