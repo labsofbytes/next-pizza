@@ -5,6 +5,7 @@ import { useSet } from 'react-use';
 
 import * as filterCheckbox from './filter-checkbox';
 import { Input } from '../ui/input';
+import { Skeleton } from '../ui';
 
 type Item = filterCheckbox.FilterCheckboxProps;
 
@@ -13,6 +14,7 @@ interface Props {
   items: Item[];
   defaultItems: Item[];
   limit?: number;
+  loading?: boolean;
   searchInputPlaceholder?: string;
   className?: string;
   onChange?: (values: string[]) => void;
@@ -26,6 +28,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   limit = 5,
   searchInputPlaceholder = 'Search...',
   className,
+  loading,
   onChange,
   defaultValue,
 }) => {
@@ -50,6 +53,19 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   React.useEffect(() => {
     onChange?.(Array.from(selected));
   }, [selected]);
+
+  if (loading) {
+    return (
+      <div className={className}>
+        <p className='font-bold mb-3'>{title}1</p>
+
+        {...Array(limit)
+          .fill(0)
+          .map((_, index) => <Skeleton className='h-6 mb-4 rounded-[8px]' />)}
+        <Skeleton className='w-28 h-6 mb-4 rounded-[8px]' />
+      </div>
+    );
+  }
 
   const list = showAll
     ? items.filter((item) => item.text.toLowerCase().includes(search.toLocaleLowerCase()))
