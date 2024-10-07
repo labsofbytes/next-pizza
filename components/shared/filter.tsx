@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
-  const { ingredients, isLoading } = useFilterIngredient();
+  const { ingredients, isLoading, onAddId, selectedIds } = useFilterIngredient();
 
   const items = ingredients.map((ingredient) => ({
     text: ingredient.name,
@@ -26,8 +26,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
       <Title text='Filters' size='sm' className='mb-5 font-bold' />
 
       <div className='flex flex-col gap-4'>
-        <FilterCheckbox text='Can be assembled' value='1' />
-        <FilterCheckbox text='New arrivals' value='2' />
+        <FilterCheckbox name='ingredients-1' text='Can be assembled' value='1' />
+        <FilterCheckbox name='ingredients-2' text='New arrivals' value='2' />
       </div>
 
       <div className='mt-5 border-y border-y-neutral-100 py-6 pb-7'>
@@ -42,10 +42,13 @@ export const Filters: React.FC<Props> = ({ className }) => {
       <CheckboxFiltersGroup
         className='mt-5'
         title='Format'
+        name='ingredients'
         limit={6}
         defaultItems={items.slice(0, 6)}
         items={items}
         loading={isLoading}
+        onClickCheckbox={onAddId}
+        selectedIds={selectedIds}
       />
     </div>
   );
