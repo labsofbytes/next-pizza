@@ -8,7 +8,7 @@ type IngredientItem = Pick<Ingredient, 'id' | 'name'>
 interface ReturnProps {
     ingredients: IngredientItem[];
     isLoading: boolean;
-    selectedIds: Set<string>;
+    selectedIngredients: Set<string>;
     onAddId: (id: string) => void;
 }
 
@@ -16,7 +16,7 @@ export const useFilterIngredient = (): ReturnProps => {
     const [ingredients, setIngredients] = useState<ReturnProps['ingredients']>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const [selectedIds, { toggle }] = useSet(new Set<string>([]));
+    const [selected, { toggle }] = useSet(new Set<string>([]));
 
     useEffect(() => {
         async function fetchIngredients() {
@@ -38,5 +38,5 @@ export const useFilterIngredient = (): ReturnProps => {
 
     }, [])
 
-    return { ingredients, isLoading, selectedIds, onAddId: toggle };
+    return { ingredients, isLoading, selectedIngredients: selected, onAddId: toggle };
 }

@@ -12,14 +12,13 @@ type Item = FilterCheckboxProps;
 interface Props {
   title: string;
   items: Item[];
-  defaultItems: Item[];
+  defaultItems?: Item[];
   limit?: number;
   loading?: boolean;
   searchInputPlaceholder?: string;
   className?: string;
   onClickCheckbox?: (id: string) => void;
-  selectedIds?: Set<string>;
-  defaultValue?: string[];
+  selected?: Set<string>;
   name?: string;
 }
 
@@ -32,23 +31,22 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   className,
   loading,
   onClickCheckbox,
-  defaultValue,
-  selectedIds,
+  selected,
   name,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
-  const [selected, { add, toggle }] = useSet<string>(new Set([]));
+  // const [selected, { add, toggle }] = useSet<string>(new Set([]));
   const [search, setSearch] = useState('');
 
   const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  React.useEffect(() => {
-    if (defaultValue) {
-      defaultValue.forEach(add);
-    }
-  }, [defaultValue?.length]);
+  // React.useEffect(() => {
+  //   if (defaultValue) {
+  //     defaultValue.forEach(add);
+  //   }
+  // }, [defaultValue?.length]);
 
   if (loading) {
     return (
@@ -90,7 +88,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
             text={item.text}
             endAdornment={item.endAdornment}
             onCheckedChange={() => onClickCheckbox?.(item.value)}
-            checked={selectedIds?.has(item.value)}
+            checked={selected?.has(item.value)}
             name={name}
           />
         ))}
