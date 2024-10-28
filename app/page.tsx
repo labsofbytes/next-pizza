@@ -1,7 +1,19 @@
 import { Container, Filters, Header, Title, TopBar } from '@/components/shared';
 import { ProductsGroupList } from '@/components/shared/product-group-list';
+import { prisma } from '@/prisma/prisma-client';
 
-export default function Home() {
+export default async function Home() {
+  const categories = await prisma.category.findMany({
+    include: {
+      products: {
+        include: {
+          ingredients: true,
+          items: true,
+        },
+      },
+    },
+  });
+
   return (
     <div>
       <Header />
@@ -10,7 +22,7 @@ export default function Home() {
         <Title text='All pizzas' size='lg' className='font-extrabold' />
       </Container>
 
-      <TopBar />
+      <TopBar categories={categories.filter((category) => category.products.length > 0)} />
 
       <Container className='pb-14 mt-10'>
         <div className='flex gap-[60px]'>
@@ -20,8 +32,17 @@ export default function Home() {
 
           <div className='flex-1'>
             <div className='flex flex-col gap-16'>
-              <ProductsGroupList title='Pizzas' items={[1, 2, 3, 4, 5]} categoryId={1} />
-              <ProductsGroupList title='Combos' items={[1, 2, 3, 4, 5]} categoryId={2} />
+              {categories.map(
+                (category) =>
+                  categories.length > 0 && (
+                    <ProductsGroupList
+                      key={category.id}
+                      categoryId={category.id}
+                      title={category.name}
+                      items={category.products}
+                    />
+                  )
+              )}
             </div>
 
             {/* <div className='flex items-center gap-6 mt-12'>
