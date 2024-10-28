@@ -1,4 +1,4 @@
-import { Container, Filters, Header, Title, TopBar } from '@/components/shared';
+import { Container, Filters, Title, TopBar } from '@/components/shared';
 import { ProductsGroupList } from '@/components/shared/product-group-list';
 import { prisma } from '@/prisma/prisma-client';
 
@@ -16,8 +16,6 @@ export default async function Home() {
 
   return (
     <div>
-      <Header />
-
       <Container className='mt-10'>
         <Title text='All pizzas' size='lg' className='font-extrabold' />
       </Container>

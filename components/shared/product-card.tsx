@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Title } from './title';
+import Link from 'next/link';
 // import { CountButton } from './count-button';
 
 interface Props {
+  id: number;
   name: string;
   price: number;
   count?: number;
@@ -13,9 +15,9 @@ interface Props {
   className?: string;
 }
 
-export const ProductCard: React.FC<Props> = ({ name, price, count, imageUrl, className }) => {
+export const ProductCard: React.FC<Props> = ({ name, price, count, imageUrl, id, className }) => {
   return (
-    <div className={cn(className)}>
+    <Link href={`product/${id}`} className={cn(className)}>
       <div className='flex justify-center p-6 bg-secondary rounded-lg h-[260px]'>
         <img className='w-[215px] h-[215px]' src={imageUrl} alt='Logo' />
       </div>
@@ -29,14 +31,13 @@ export const ProductCard: React.FC<Props> = ({ name, price, count, imageUrl, cla
           from <b>{price} $</b>
         </span>
 
-        {count ? //   <CountButton value={count} size="lg" />
-        null : (
+        {count ? null : ( //   <CountButton value={count} size="lg" />
           <Button variant='secondary'>
             <Plus className='w-4 h-4 mr-1' />
             Add
           </Button>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
