@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { cn } from '@/shared/lib/utils';
-import { log } from 'console';
 
-type Variant = {
+export type Variant = {
   text: string;
   value: string;
   disabled?: boolean;

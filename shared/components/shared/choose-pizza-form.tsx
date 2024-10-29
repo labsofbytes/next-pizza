@@ -1,27 +1,34 @@
+'use client';
+
 import React from 'react';
+import { Ingredient, ProductItem } from '@prisma/client';
 import { cn } from '@/shared/lib/utils';
+
 import { PizzaImage } from './pizza-image';
 import { Title } from './title';
 import { Button } from '../ui';
 import { GroupVariants } from './group-variants';
-import { PizzaSize, pizzaSize, PizzaType } from '@/shared/constants/pizza';
+import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
 import { IngredientsItem } from './ingredients-item';
+import { getPizzaDetails } from '@/shared/lib';
+import { usePizzaOptions } from '@/shared/hooks';
 
 interface Props {
   imageUrl: string;
   name: string;
-  ingredients: any[];
-  items?: any[];
-  onClickAdd?: VoidFunction;
+  ingredients: Ingredient[];
+  items: ProductItem[];
+  onClickAddCard?: VoidFunction;
   className?: string;
 }
 
-export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, items, onClickAdd, className }) => {
-  const [size, setSize] = React.useState<PizzaSize>(30);
-  const [type, setType] = React.useState<PizzaType>(1);
+export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, items, onClickAddCard, className }) => {
+  const { size, type, selectedIngredients, availablePizzaSizes, setSize, setType, addIngredient } =
+    usePizzaOptions(items);
 
-  const textDetails = 'Lorem ipsum dolor sit amet consectetur adipisicing elit.';
-  const totalPrice = 70;
+  const { totalPrice, textDetails } = getPizzaDetails(items, size, type, ingredients, selectedIngredients);
+
+  const handleClickAdd = () => onClickAddCard?.();
 
   return (
     <div className={cn(className, 'flex flex-1')}>
@@ -34,7 +41,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, 
 
         <div className='flex flex-col gap-4 mt-5'>
           <GroupVariants
-            items={pizzaSize}
+            items={availablePizzaSizes}
             value={String(size)}
             onClick={(value) => setSize(Number(value) as PizzaSize)}
           />
@@ -53,15 +60,15 @@ export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, 
                 imageUrl={imageUrl}
                 name={name}
                 price={price}
-                active={false}
-                onClick={onClickAdd}
+                onClick={() => addIngredient(id)}
+                active={selectedIngredients.has(id)}
               />
             ))}
           </div>
         </div>
 
         <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'>
-          Add into basket for {totalPrice} $
+          Add to basket for {totalPrice} $
         </Button>
       </div>
     </div>

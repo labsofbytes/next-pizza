@@ -5,8 +5,8 @@ export const mapPizzaSize = {
 } as const;
 
 export const mapPizzaType = {
-    1: "Traditional",
-    2: "Thin",
+    1: "traditional",
+    2: "thin",
 } as const;
 
 export const pizzaSize = Object.entries(mapPizzaSize).map(([value, text]) => ({ text, value }));
