@@ -18,17 +18,21 @@ interface Props {
   name: string;
   ingredients: Ingredient[];
   items: ProductItem[];
-  onClickAddCard?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
   className?: string;
 }
 
-export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, items, onClickAddCard, className }) => {
-  const { size, type, selectedIngredients, availablePizzaSizes, setSize, setType, addIngredient } =
+export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, items, onSubmit, className }) => {
+  const { size, type, selectedIngredients, availablePizzaSizes, currentItemId, setSize, setType, addIngredient } =
     usePizzaOptions(items);
 
   const { totalPrice, textDetails } = getPizzaDetails(items, size, type, ingredients, selectedIngredients);
 
-  const handleClickAdd = () => onClickAddCard?.();
+  const handleClickAdd = () => {
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
+  };
 
   return (
     <div className={cn(className, 'flex flex-1')}>
@@ -67,7 +71,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({ imageUrl, name, ingredients, 
           </div>
         </div>
 
-        <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'>
+        <Button onClick={handleClickAdd} className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'>
           Add to basket for {totalPrice} $
         </Button>
       </div>
