@@ -1,4 +1,5 @@
 import { Nunito } from 'next/font/google';
+import toast, { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 const inter = Nunito({
@@ -17,7 +18,10 @@ export default function RootLayout({
       <head>
         <link data-rh='true' rel='icon' href='/logo.png' />
       </head>
-      <body className={`${inter.className}`}>{children}</body>
+      <body className={`${inter.className}`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

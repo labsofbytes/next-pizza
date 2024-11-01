@@ -7,6 +7,7 @@ import { useCartStore } from '@/shared/store';
 import { Dialog, DialogContent } from '@/shared/components/ui/dialog';
 import { ChooseProductForm, ChoosePizzaForm } from '..';
 import { ProductWithRelations } from '@/@types/prisma';
+import toast from 'react-hot-toast';
 
 type Props = {
   product: ProductWithRelations;
@@ -17,13 +18,20 @@ export const ChooseProductModal = ({ product }: Props) => {
   const firstItem = product.items[0];
   const isPizzaForm = Boolean(firstItem?.pizzaType);
   const addCartItem = useCartStore((state) => state.addCartItem);
+  const loading = useCartStore((state) => state.loading);
 
-  const onAddProduct = () => {
-    addCartItem({ productId: firstItem.id });
-  };
+  const onSubmit = async (productId: number, ingredients: number[]) => {
+    try {
+      const itemId = productId ?? firstItem.id;
 
-  const onAddPizza = (productId: number, ingredients: number[]) => {
-    addCartItem({ productId, ingredients });
+      await addCartItem({ productId: itemId, ingredients });
+
+      toast.success(product.name + ' added to cart');
+      router.back();
+    } catch (error) {
+      toast.error('Failed to add pizza to cart');
+      console.error(error);
+    }
   };
 
   return (
@@ -35,14 +43,17 @@ export const ChooseProductModal = ({ product }: Props) => {
             name={product.name}
             ingredients={product.ingredients}
             items={product.items}
-            onSubmit={onAddPizza}
+            onSubmit={onSubmit}
+            loading={loading}
           />
         ) : (
           <ChooseProductForm
             imageUrl={product.imageUrl}
             name={product.name}
-            onSubmit={onAddProduct}
+            //@ts-ignore
+            onSubmit={onSubmit}
             price={firstItem.price}
+            loading={loading}
           />
         )}
       </DialogContent>
