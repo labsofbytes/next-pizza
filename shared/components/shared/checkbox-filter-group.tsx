@@ -35,23 +35,16 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   name,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
-  // const [selected, { add, toggle }] = useSet<string>(new Set([]));
   const [search, setSearch] = useState('');
 
   const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  // React.useEffect(() => {
-  //   if (defaultValue) {
-  //     defaultValue.forEach(add);
-  //   }
-  // }, [defaultValue?.length]);
-
   if (loading) {
     return (
       <div className={className}>
-        <p className='font-bold mb-3'>{title}1</p>
+        <p className='font-bold mb-3'>{title}</p>
 
         {...Array(limit)
           .fill(0)

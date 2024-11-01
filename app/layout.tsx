@@ -18,7 +18,7 @@ export default function RootLayout({
       <head>
         <link data-rh='true' rel='icon' href='/logo.png' />
       </head>
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className}`} suppressHydrationWarning={true}>
         {children}
         <Toaster />
       </body>

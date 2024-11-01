@@ -16,7 +16,7 @@ export const useQueryFilters = (filters: Filters) => {
     };
 
     const query = qs.stringify(
-      { params },
+      params,
       {
         arrayFormat: 'comma',
       }
@@ -26,6 +26,6 @@ export const useQueryFilters = (filters: Filters) => {
       scroll: false,
     });
   }, [
-    filters, router
+    filters
   ])
 }

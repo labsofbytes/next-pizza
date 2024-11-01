@@ -1,19 +1,11 @@
 import { Suspense } from 'react';
 import { Container, Filters, Title, TopBar } from '@/shared/components/shared';
 import { ProductsGroupList } from '@/shared/components/shared/product-group-list';
-import { prisma } from '@/prisma/prisma-client';
+import { findPizzas } from '@/shared/lib/find-pizzas';
+import { GetSearchParams } from '@/shared/lib/find-pizzas';
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          items: true,
-        },
-      },
-    },
-  });
+export default async function Home({ searchParams }: { searchParams: GetSearchParams }) {
+  let categories = await findPizzas(searchParams);
 
   return (
     <div>
@@ -26,7 +18,7 @@ export default async function Home() {
       <Container className='pb-14 mt-10'>
         <div className='flex gap-[60px]'>
           <div className='w-[250px]'>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense>
               <Filters />
             </Suspense>
           </div>
@@ -45,11 +37,6 @@ export default async function Home() {
                   )
               )}
             </div>
-
-            {/* <div className='flex items-center gap-6 mt-12'>
-              <Pagination pageCount={3} />
-              <span className='text-sm text-gray-400'>5 of 65</span>
-            </div> */}
           </div>
         </div>
       </Container>
