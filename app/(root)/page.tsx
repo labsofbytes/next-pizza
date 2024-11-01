@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Container, Filters, Title, TopBar } from '@/shared/components/shared';
 import { ProductsGroupList } from '@/shared/components/shared/product-group-list';
 import { prisma } from '@/prisma/prisma-client';
@@ -25,7 +26,9 @@ export default async function Home() {
       <Container className='pb-14 mt-10'>
         <div className='flex gap-[60px]'>
           <div className='w-[250px]'>
-            <Filters />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Filters />
+            </Suspense>
           </div>
 
           <div className='flex-1'>
