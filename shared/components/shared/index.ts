@@ -19,4 +19,5 @@ export { CartDrawer } from './cart-drawer';
 export { CountIconButton } from './count-icon-button';
 export { CountButton } from './count-button';
 export { CartDrawerItem } from './cart-drawer-item';
+export { ProductForm } from './product-form'
 export * as Modal from './modals';
