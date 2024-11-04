@@ -4,12 +4,12 @@ import { CartStateItem } from './get-cart-details';
 
 export const getCartItemDetails = (
     ingredients: CartStateItem['ingredients'],
-    pizzaType: PizzaType,
-    pizzaSize: PizzaSize,
+    pizzaType?: PizzaType,
+    pizzaSize?: PizzaSize,
 ): string => {
     const details = [];
 
-    if (mapPizzaSize && PizzaType) {
+    if (pizzaType && pizzaSize) {
         const typeName = mapPizzaType[pizzaType];
         details.push(`${typeName} sm, ${pizzaSize} pizza`);
     }

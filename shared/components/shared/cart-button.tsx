@@ -6,12 +6,12 @@ import { CartDrawer } from '.';
 import { use } from 'react';
 import { useCartStore } from '@/shared/store';
 import { cn } from '@/shared/lib/utils';
+import { useCart } from '@/shared/hooks';
 
 type Props = {};
+
 export const CartButton = ({}: Props) => {
-  const totalAmount = useCartStore((state) => state.totalAmount);
-  const items = useCartStore((state) => state.items);
-  const loading = useCartStore((state) => state.loading);
+  const { items, totalAmount, loading } = useCart();
 
   return (
     <CartDrawer>
