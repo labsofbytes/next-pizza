@@ -1,19 +1,56 @@
 'use client';
 
-import { CheckoutItem, CheckoutItemDetails, Container, Title } from '@/shared/components/shared';
-import { CheckoutSidebar } from '@/shared/components/shared/checkout-sidebar';
-import { WhiteBlock } from '@/shared/components/shared/white-block';
-import { Button, Input, Textarea } from '@/shared/components/ui';
-import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
-import { useCart } from '@/shared/hooks';
-import { getCartItemDetails } from '@/shared/lib';
-import { ArrowRight, Package, Percent, Truck } from 'lucide-react';
 import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-type Props = {};
+import {
+  CheckoutAddressFrom,
+  CheckoutCart,
+  CheckoutPersonalInfo,
+  Container,
+  Title,
+  CheckoutSidebar,
+} from '@/shared/components';
+import { checkoutFormSchema, CheckoutFormValues } from '@/shared/constants';
+import { useCart } from '@/shared/hooks';
+import { cn } from '@/shared/lib/utils';
+import toast from 'react-hot-toast';
+import { createOrder } from '@/app/actions';
 
-export default function CheckoutPage({}: Props) {
-  const { addCartItem, removeCartItem, updateItemQuantity, totalAmount, items } = useCart();
+export default function CheckoutPage() {
+  const [submitting, setSubmitting] = React.useState(false);
+  const { removeCartItem, updateItemQuantity, totalAmount, items, loading } = useCart();
+
+  const form = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutFormSchema),
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
+      address: '',
+      comment: '',
+    },
+  });
+
+  const onSubmit = async (data: CheckoutFormValues) => {
+    try {
+      setSubmitting(true);
+
+      const url = await createOrder(data);
+
+      toast.success('Order created! Redirecting you to the payment page', { icon: '✅' });
+
+      if (url) {
+        location.href = url;
+      }
+    } catch (error) {
+      console.error(error);
+      setSubmitting(false);
+      toast.error('Failed to create order', { icon: '❌' });
+    }
+  };
 
   const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
     const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
@@ -24,54 +61,30 @@ export default function CheckoutPage({}: Props) {
     <Container className='mt-10'>
       <Title text='Checkout' className='font-extrabold mb-8 text-[36px]' />
 
-      <div className='flex gap-10'>
-        {/* Left */}
-        <div className='flex flex-col gap-10 flex-1 mb-20'>
-          <WhiteBlock title='1. Cart'>
-            <div className='flex flex-col gap-5'>
-              {items.map((item) => (
-                <CheckoutItem
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  price={item.price}
-                  imageUrl={item.imageUrl}
-                  quantity={item.quantity}
-                  details={getCartItemDetails(
-                    item.ingredients,
-                    item.pizzaType as PizzaType,
-                    item.pizzaSize as PizzaSize
-                  )}
-                  disabled={item.disabled}
-                  onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
-                  onClickRemove={() => removeCartItem(item.id)}
-                />
-              ))}
-            </div>
-          </WhiteBlock>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='flex gap-10'>
+            {/* Left */}
+            <div className='flex flex-col gap-10 flex-1 mb-20'>
+              <CheckoutCart
+                items={items}
+                onClickCountButton={onClickCountButton}
+                removeCartItem={removeCartItem}
+                loading={loading}
+              />
 
-          <WhiteBlock title='2. Personal details'>
-            <div className='grid grid-cols-2 gap-5'>
-              <Input name='name' className='text-base' placeholder='Name' />
-              <Input name='lastName' className='text-base' placeholder='Surname' />
-              <Input name='email' className='text-base' placeholder='Email' />
-              <Input name='phone' className='text-base' placeholder='Phone' />
-            </div>
-          </WhiteBlock>
+              <CheckoutPersonalInfo className={cn({ 'opacity-50 pointer-events-none': loading })} />
 
-          <WhiteBlock title='3. Delivery details'>
-            <div className='flex flex-col gap-5'>
-              <Input name='address' className='text-base' placeholder='Address' />
-              <Textarea rows={5} name='address' className='text-base' placeholder='Comments to delivery' />
+              <CheckoutAddressFrom className={cn({ 'opacity-50 pointer-events-none': loading })} />
             </div>
-          </WhiteBlock>
-        </div>
 
-        {/* Right */}
-        <div className='w-[450px]'>
-          <CheckoutSidebar totalAmount={totalAmount} />
-        </div>
-      </div>
+            {/* Right */}
+            <div className='w-[450px]'>
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
+            </div>
+          </div>
+        </form>
+      </FormProvider>
     </Container>
   );
 }
