@@ -88,7 +88,7 @@ export async function createOrder(data: CheckoutFormValues) {
   }
 
 
-  return 'http://google.com'
+  return '/'
 }
 
 

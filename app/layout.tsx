@@ -1,6 +1,6 @@
 import { Nunito } from 'next/font/google';
-import toast, { Toaster } from 'react-hot-toast';
 import './globals.css';
+import { Providers } from '@/shared/components';
 
 const inter = Nunito({
   subsets: ['cyrillic'],
@@ -19,8 +19,7 @@ export default function RootLayout({
         <link data-rh='true' rel='icon' href='/logo.png' />
       </head>
       <body className={`${inter.className}`} suppressHydrationWarning={true}>
-        {children}
-        <Toaster />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

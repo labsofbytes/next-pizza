@@ -1,3 +1,4 @@
+import { Providers } from './providers';
 export { RequiredSymbol } from './required-symbol';
 export { ErrorText } from './error-text';
 export { Container } from './container';
@@ -27,6 +28,8 @@ export { CheckoutItem } from './checkout-item';
 export { CheckoutItemSkeleton } from './checkout-item-skeleton';
 export { CheckoutSidebar } from './checkout-sidebar';
 export { ClearButton } from './clear-button';
+export { Providers } from './providers';
+export { ProfileButton } from './profile-button';
 export * from './form';
 export * from './checkout';
 export * from './modals';

@@ -43,7 +43,8 @@ export default function CheckoutPage() {
       toast.success('Order created! Redirecting you to the payment page', { icon: '✅' });
 
       if (url) {
-        location.href = url;
+        // location.href = url; correct!
+        setTimeout(() => window.location.assign(url), 1500);
       }
     } catch (error) {
       console.error(error);
