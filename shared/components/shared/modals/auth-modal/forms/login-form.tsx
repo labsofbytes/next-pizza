@@ -22,24 +22,28 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
   });
 
   const onSubmit = async (data: TFormLoginValues) => {
+    console.log({ data });
+
     try {
       const resp = await signIn('credentials', {
         ...data,
         redirect: false,
       });
 
+      console.log({ resp });
+
       if (!resp?.ok) {
         throw Error();
       }
 
-      toast.success('Вы успешно вошли в аккаунт', {
+      toast.success('You have successfully signed in to your account', {
         icon: '✅',
       });
 
       onClose?.();
     } catch (error) {
       console.error('Error [LOGIN]', error);
-      toast.error('Не удалось войти в аккаунт', {
+      toast.error('Failed to login', {
         icon: '❌',
       });
     }
@@ -47,20 +51,20 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
 
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex justify-between items-center">
-          <div className="mr-2">
-            <Title text="Вход в аккаунт" size="md" className="font-bold" />
-            <p className="text-gray-400">Введите свою почту, чтобы войти в свой аккаунт</p>
+      <form className='flex flex-col gap-5' onSubmit={form.handleSubmit(onSubmit)}>
+        <div className='flex justify-between items-center'>
+          <div className='mr-2'>
+            <Title text='Login to Account' size='md' className='font-bold' />
+            <p className='text-gray-400'>Enter your email to log in to your account</p>
           </div>
-          <img src="/assets/images/phone-icon.png" alt="phone-icon" width={60} height={60} />
+          <img src='/assets/images/phone-icon.png' alt='phone-icon' width={60} height={60} />
         </div>
 
-        <FormInput name="email" label="E-Mail" required />
-        <FormInput name="password" label="Пароль" type="password" required />
+        <FormInput name='email' label='Email' required />
+        <FormInput name='password' label='Password' type='password' required />
 
-        <Button loading={form.formState.isSubmitting} className="h-12 text-base" type="submit">
-          Войти
+        <Button loading={form.formState.isSubmitting} className='h-12 text-base' type='submit'>
+          Log In
         </Button>
       </form>
     </FormProvider>

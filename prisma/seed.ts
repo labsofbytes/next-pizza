@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from './prisma-client';
 
 import { categories, _ingredients, products } from './constants';
+import { hashSync } from 'bcrypt';
 
 const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
@@ -30,13 +31,13 @@ async function up() {
             {
                 fullName: 'User',
                 email: 'user@gmail.com',
-                password: '1234qwer',
+                password: hashSync('1234qwer', 10),
                 role: 'USER',
             },
             {
                 fullName: 'Admin',
                 email: 'user2@gmail.com',
-                password: '1234qwer',
+                password: hashSync('1234qwer', 10),
                 role: 'ADMIN',
             },
         ],

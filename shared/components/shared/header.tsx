@@ -8,7 +8,7 @@ import { cn } from '@/shared/lib/utils';
 import { Container } from './container';
 import { SearchInput } from './search-input';
 import { CartButton } from './cart-button';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { ProfileButton } from './profile-button';
 import { AuthModal } from './modals';
 
@@ -23,7 +23,9 @@ export const Header: React.FC<Props> = ({ className, hasCart = true, hasSearch =
 
   const { data: session } = useSession();
 
-  console.log(session);
+  if (session) {
+    console.log(session);
+  }
 
   return (
     <header className={cn('border-b border-gray-100', className)}>
