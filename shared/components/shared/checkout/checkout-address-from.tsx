@@ -1,6 +1,5 @@
 import React from 'react';
 import { WhiteBlock } from '../white-block';
-import { Input } from '../../ui';
 import { FormInput, FormTextarea } from '..';
 
 type Props = {

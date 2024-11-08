@@ -5,7 +5,7 @@ import { findPizzas } from '@/shared/lib/find-pizzas';
 import { GetSearchParams } from '@/shared/lib/find-pizzas';
 
 export default async function Home({ searchParams }: { searchParams: GetSearchParams }) {
-  let categories = await findPizzas(searchParams);
+  const categories = await findPizzas(searchParams);
 
   return (
     <div>
