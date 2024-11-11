@@ -25,7 +25,7 @@ A comprehensive pizza ordering website built with Next.js, offering a complete s
 
 ## **Links**
 
-- **Live Demo**: [link](next-pizza-lab.vercel.app/)
+- **Live Demo**: [link](https://next-pizza-lab.vercel.app/)
 - **GitHub Repository**: [link](https://github.com/labsofbytes/next-pizza)
 
 ---
