@@ -1,6 +1,38 @@
+# **Pizza Ordering App**
+
+A comprehensive pizza ordering website built with Next.js, offering a complete shopping experience, including product filtering, cart functionality, and user profile management.
+
+## **Features**
+
+- Full product filtering with server-side rendering and URL parameter storage
+- Product listing and addition to the shopping cart
+- User authentication and registration via email/password, GitHub, and Google
+- Profile editing and management
+- Product display in modal windows or on separate pages using Parallel Routes
+- Automated email notifications for registration, order creation, and successful payment
+- Deployment and database hosting on Vercel, demonstrating client-server components in action
+
+## **Technologies**
+
+- **Next.js**
+- **TypeScript**
+- **TailwindCSS**
+- **Prisma + PostgreSQL**
+- **NextAuth**
+- **Zustand**
+- **react-hot-toast**
+- **Resend**
+
+## **Links**
+
+- **Live Demo**: [link](next-pizza-lab.vercel.app/)
+- **GitHub Repository**: [link](https://github.com/labsofbytes/next-pizza)
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Getting Started Next App
 
 First, run the development server:
 
